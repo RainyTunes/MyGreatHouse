@@ -1,7 +1,7 @@
 {
-  "name": "mypoorhouse",
+  "name": "mhpga",
   "version": "1.0.0",
-  "description": "",
+  "description": "Make Housing Prices Great Again - 让房价再次伟大",
   "main": "index.js",
   "scripts": {
     "dev": "vite",

@@ -17,7 +17,7 @@ const dataSlice = createSlice({
     data: [],
     loading: false,
     error: null,
-    selectedType: 'newHouse' // 'newHouse' or 'secondHand'
+    selectedType: 'secondHand' // 'newHouse' or 'secondHand'
   },
   reducers: {
     setSelectedType: (state, action) => {

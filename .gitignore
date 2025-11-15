@@ -3,6 +3,7 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+package-lock.json
 
 # Production build
 /build
@@ -42,3 +43,6 @@ data/raw/
 
 # OS files
 Thumbs.db
+
+# Vite
+.vite/

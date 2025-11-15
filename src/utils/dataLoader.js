@@ -43,7 +43,8 @@ export function calculateStats(data, type = 'newHouse') {
     .filter(d => d[type] && d[type].yoy !== null)
     .map(d => ({
       period: d.period,
-      yoy: d[type].yoy
+      yoy: d[type].yoy,
+      mom: d[type].mom
     }));
 
   if (validData.length === 0) {
@@ -61,16 +62,43 @@ export function calculateStats(data, type = 'newHouse') {
     };
   }
 
-  // 累乘计算：每个月的同比指数相对于100的变化率累乘
-  // 例如：第一个月98 (下跌2%), 第二个月97 (下跌3%)
-  // 累计变化 = (98/100) * (97/100) * 100 = 95.06
+  // 使用环比(MoM)累乘计算整个时间段的真实涨跌幅
+  // 公式：累计指数 = 100 × (第1月环比/100) × (第2月环比/100) × ... × (第N月环比/100)
+
+  console.group('📊 累计涨跌幅计算过程');
+  console.log('时间范围:', validData[0].period, '→', validData[validData.length - 1].period);
+  console.log('数据点数:', validData.length, '个月');
+
   let cumulativeIndex = 100;
-  validData.forEach(d => {
-    cumulativeIndex = cumulativeIndex * (d.yoy / 100);
-  });
+  const momData = validData.filter(d => d.mom !== null);
+
+  if (momData.length > 0) {
+    console.log('\n使用环比(MoM)累乘计算:');
+    console.log('初始指数: 100');
+
+    momData.forEach((d, index) => {
+      const prevIndex = cumulativeIndex;
+      cumulativeIndex = cumulativeIndex * (d.mom / 100);
+      if (index < 5 || index >= momData.length - 5) {
+        console.log(`  ${d.period}: MoM=${d.mom.toFixed(2)}, 累计=${cumulativeIndex.toFixed(2)}`);
+      } else if (index === 5) {
+        console.log('  ... (省略中间数据) ...');
+      }
+    });
+  } else {
+    console.log('\n⚠️ 无环比数据，使用同比估算');
+    console.log('注意：同比数据不能直接累乘（它是相对于去年同期，而非连续月份）');
+    cumulativeIndex = validData[validData.length - 1].yoy;
+  }
 
   const totalChange = cumulativeIndex - 100;
-  const totalChangePercent = ((cumulativeIndex - 100) / 100) * 100;
+  const totalChangePercent = totalChange;
+
+  console.log('\n最终结果:');
+  console.log('累计指数:', cumulativeIndex.toFixed(2));
+  console.log('累计涨跌:', totalChange.toFixed(2));
+  console.log('累计涨跌幅:', totalChangePercent.toFixed(2) + '%');
+  console.groupEnd();
 
   const firstYoy = validData[0].yoy;
   const lastYoy = validData[validData.length - 1].yoy;

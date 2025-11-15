@@ -46,3 +46,7 @@ Thumbs.db
 
 # Vite
 .vite/
+
+# Claude Code
+CLAUDE.md
+.claude/

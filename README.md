@@ -1,6 +1,6 @@
-# MHPGA - Make Housing Prices Great Again
+# 🚀 让房价再次伟大
 
-> **让房价再次伟大** - 每个中国购房者的梦想 🚀📈
+> Make Housing Prices Great Again - 每个中国购房者的梦想 📈
 
 基于国家统计局70城房价数据的可视化工具。看着那些美丽的下跌曲线，不禁感叹：房产投资，永远的价值洼地！
 

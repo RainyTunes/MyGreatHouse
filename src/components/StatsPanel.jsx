@@ -1,6 +1,5 @@
 const StatsPanel = ({ stats, type }) => {
   const typeLabel = type === 'newHouse' ? '新房' : '二手房';
-  const changePercent = ((parseFloat(stats.totalChange) / parseFloat(stats.startValue)) * 100).toFixed(1);
   const isPositive = parseFloat(stats.totalChange) >= 0;
 
   return (
@@ -10,7 +9,7 @@ const StatsPanel = ({ stats, type }) => {
       gap: '16px',
       marginBottom: '24px'
     }}>
-      {/* Total Change */}
+      {/* Total Change - Cumulative */}
       <div style={{
         background: isPositive ? '#fef2f2' : '#f0fdf4',
         border: `2px solid ${isPositive ? '#fecaca' : '#bbf7d0'}`,
@@ -22,7 +21,7 @@ const StatsPanel = ({ stats, type }) => {
       onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
       >
         <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px', fontWeight: '500' }}>
-          整体变化
+          累计涨跌幅
         </div>
         <div style={{
           fontSize: '28px',
@@ -30,10 +29,10 @@ const StatsPanel = ({ stats, type }) => {
           color: isPositive ? '#dc2626' : '#16a34a',
           lineHeight: '1.2'
         }}>
-          {isPositive ? '+' : ''}{stats.totalChange}
+          {isPositive ? '+' : ''}{stats.totalChangePercent}%
         </div>
         <div style={{ fontSize: '11px', color: '#9ca3af', marginTop: '2px' }}>
-          {isPositive ? '+' : ''}{changePercent}%
+          累乘指数: {stats.cumulativeIndex}
         </div>
       </div>
 

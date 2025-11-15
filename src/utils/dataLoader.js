@@ -49,6 +49,8 @@ export function calculateStats(data, type = 'newHouse') {
   if (validData.length === 0) {
     return {
       totalChange: 0,
+      totalChangePercent: 0,
+      cumulativeIndex: 100,
       startValue: 100,
       endValue: 100,
       startPeriod: null,
@@ -59,9 +61,19 @@ export function calculateStats(data, type = 'newHouse') {
     };
   }
 
+  // 累乘计算：每个月的同比指数相对于100的变化率累乘
+  // 例如：第一个月98 (下跌2%), 第二个月97 (下跌3%)
+  // 累计变化 = (98/100) * (97/100) * 100 = 95.06
+  let cumulativeIndex = 100;
+  validData.forEach(d => {
+    cumulativeIndex = cumulativeIndex * (d.yoy / 100);
+  });
+
+  const totalChange = cumulativeIndex - 100;
+  const totalChangePercent = ((cumulativeIndex - 100) / 100) * 100;
+
   const firstYoy = validData[0].yoy;
   const lastYoy = validData[validData.length - 1].yoy;
-  const totalChange = lastYoy - firstYoy;
 
   const yoyValues = validData.map(d => d.yoy);
   const minYoy = Math.min(...yoyValues);
@@ -70,6 +82,8 @@ export function calculateStats(data, type = 'newHouse') {
 
   return {
     totalChange: totalChange.toFixed(2),
+    totalChangePercent: totalChangePercent.toFixed(2),
+    cumulativeIndex: cumulativeIndex.toFixed(2),
     startValue: firstYoy.toFixed(1),
     endValue: lastYoy.toFixed(1),
     startPeriod: validData[0].period,

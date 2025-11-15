@@ -148,11 +148,22 @@ function App() {
               border: '1px solid #fef08a',
               borderRadius: '12px',
               fontSize: '13px',
-              color: '#78716c'
+              color: '#78716c',
+              lineHeight: '1.6'
             }}>
-              <strong>数据说明：</strong>
-              指数 &gt; 100 表示房价同比上涨，&lt; 100 表示同比下跌。
-              整体变化反映了从起始期到当前期的累计变化幅度。
+              <div style={{ marginBottom: '8px' }}>
+                <strong>数据说明：</strong>
+              </div>
+              <div style={{ marginBottom: '4px' }}>
+                • <strong>同比指数</strong>：100为基准线，&gt;100表示同比上涨，&lt;100表示同比下跌
+              </div>
+              <div>
+                • <strong>累计涨跌幅</strong>：通过每月同比指数累乘计算得出，反映整个时间段的真实价格变化
+                <br />
+                <span style={{ fontSize: '12px', color: '#9ca3af', marginLeft: '12px' }}>
+                  例：若第1月98%，第2月97%，则累计 = 100 × (98/100) × (97/100) = 95.06，跌幅4.94%
+                </span>
+              </div>
             </div>
           </>
         )}
